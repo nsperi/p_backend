@@ -3,7 +3,7 @@ const fs = require('fs');
 class ProductManager {
   #filePath = './productos.json';
   #products = [];
-  #idCounter = [];
+  #idCounter = 1;
 
   constructor() {
     try {
@@ -28,7 +28,6 @@ class ProductManager {
       }
 
       productData.id = this.#idCounter++;
-
       this.#products.push(productData);
 
       this.saveToFile();
@@ -43,9 +42,9 @@ class ProductManager {
     return this.#products;
   }
 
-  getXProducts(x){
+  getXProducts(x) {
 
-    
+    return this.#products.slice(0, x);
   }
 
   getProductById(productId) {
@@ -71,7 +70,6 @@ class ProductManager {
       }
 
       this.#products[productIndex] = { ...this.#products[productIndex], ...updatedFields };
-
       this.saveToFile();
 
       return this.#products[productIndex];
@@ -98,6 +96,7 @@ class ProductManager {
 
 const productManager = new ProductManager();
 
+
 const newProduct = productManager.addProduct({
   title: "Producto de ejemplo",
   description: "Descripción del producto",
@@ -120,5 +119,4 @@ console.log("Producto actualizado:", updatedProduct);
 productManager.deleteProduct(1);
 console.log("Producto eliminado con éxito.");
 
-
-module.export = ProductManager;
+module.exports = ProductManager; 
