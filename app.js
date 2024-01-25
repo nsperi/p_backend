@@ -5,9 +5,9 @@ const ProductManager = require("./classes/ProductManager");
 const CartManager = require("./classes/CartManager");
 const productManager = new ProductManager();
 const cartManager = new CartManager();
-const exphbs = require('express-handlebars');
-const http = require('http');
-const socketIO = require('socket.io');
+import __dirname from "./utils.js";
+import handlebars from "express-handlebars";
+import { Server } from "socket.io";
 
 const productRouter = require("./routers/ProductRouter")(productManager);
 
