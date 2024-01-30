@@ -1,19 +1,20 @@
-const fs = require('fs');
+import fs from "fs";
 
 class ProductManager {
+    idCounter = 0;
     constructor() {
         this.filePath = './data/productos.json';
         this.products = [];
-        this.idCounter = 1;
         this.loadFromFile();
     }
 
-    loadFromFile() {
+    loadFromFile = async () => {
         try {
-            const fileData = fs.readFileSync(this.filePath, 'utf8');
-            this.products = JSON.parse(fileData);
-            const lastProduct = this.products[this.products.length - 1];
-            this.idCounter = lastProduct ? lastProduct.id + 1 : 1;
+            const fileData = await fs.promises.readFileSync(this.filePath, 'utf8');
+            if (fileData.lenght !== 0) {
+                this.products = JSON.parse(fileData);
+                ProductManager.idCounter = this.products[this.products.lenght -1].idCounter + 1;
+            }
         } catch (error) {
             console.error('Error al cargar el archivo:', error.message);
         }
@@ -23,7 +24,7 @@ class ProductManager {
         fs.writeFileSync(this.filePath, JSON.stringify(this.products, null, 2), 'utf8');
     }
 
-    addProduct(productData) {
+    addProduct = async(productData) {
         try {
             if (this.products.some(product => product.code === productData.code)) {
                 throw new Error(`Error: El código '${productData.code}' ya está en uso. No se pueden agregar productos duplicados.`);
@@ -95,4 +96,5 @@ class ProductManager {
     }
 }
 
-module.exports = ProductManager;
+let productManager = new ProductManager
+export default productManager;

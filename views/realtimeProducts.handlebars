@@ -1,5 +1,6 @@
 <div>
     <h1>Hola, {{name}}</h1>
+    <ul id="productList"></ul>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -7,6 +8,13 @@
     const socket = io();
 
     socket.on('productsUpdated', (updatedProducts) => {
+        const productList = document.getElementById('productList');
+        productList.innerHTML = ''; 
 
+        updatedProducts.forEach((product) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${product.title}: $${product.price}`;
+            productList.appendChild(listItem);
+        });
     });
 </script>

@@ -1,4 +1,4 @@
-const fs = require('fs').promises;
+import fs from "fs";
 
 class CartManager {
   constructor() {
@@ -60,4 +60,5 @@ class FileManager {
   }
 }
 
-module.exports = CartManager;
+let cartManager = new CartManager
+export default cartManager;
